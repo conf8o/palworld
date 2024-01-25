@@ -9,19 +9,26 @@ Docker Engine
 
 ## アップデートの手順
 
-1. コンテナ内のbashを起動する。
+1. (ホスト側) コンテナのbashを起動し、コンテナ内の作業に切り替える
 
 ```sh
 docker exec -it palworld /bin/bash
 ```
 
-2. `/steamapps`ディレクトリに移動し、下記コマンドを実行。新しいバージョンがインストールされる。これはDockerfile内にも記載がある。
+2. (コンテナ内) `/steamapps`ディレクトリに移動し、下記コマンドを実行。新しいバージョンがインストールされる。この操作はDockerfile内にも記載がある。
 
 ```sh
+cd /steamapps
 ./steamcmd.sh +force_install_dir '/app/PalServer/' +login anonymous +app_update 2394010 validate +quit
 ```
 
-3. コンテナから出て、下記コマンドでサーバーを再起動する
+3. (コンテナ内) コンテナから出る
+
+```sh
+exit
+```
+
+4. (ホスト側) 下記コマンドでサーバーを再起動する
 
 ```sh
 docker restart palworld
