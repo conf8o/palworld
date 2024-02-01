@@ -4,12 +4,32 @@ Docker Engine
 
 ## サーバー立ち上げの手順
 
-1. `./build_server.sh` でコンテナイメージのビルド
-2. `./run_server.sh` でコンテナを実行
+### 1. `./build_server.sh` でコンテナイメージのビルド
+### 3. `./run_server.sh` でコンテナを実行
+
+## ワールド設定
+
+(`./run_server.sh`がマウントしてないため、コンテナ実行時にマウントすべきだった)
+
+### 1.  (ホスト側) 起動しているコンテナのbashを実行し、コンテナ内の作業に切り替える
+
+```sh
+docker exec -it palworld /bin/bash
+```
+
+### 2. `/app/PalServer/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini`を編集する。
+
+コンテナにはエディタが含まれないため、`sed`コマンドによる置換を行う。
+
+下記は例
+
+```sh
+sed -i 's/DeathPenalty=[a-z|A-Z]*/DeathPenalty=ItemAndEquipment/g' /app/PalServer/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini
+```
 
 ## アップデートの手順
 
-1. (ホスト側) コンテナのbashを起動し、コンテナ内の作業に切り替える
+1. (ホスト側) 起動しているコンテナのbashを実行し、コンテナ内の作業に切り替える
 
 ```sh
 docker exec -it palworld /bin/bash
